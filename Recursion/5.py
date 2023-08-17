@@ -1,28 +1,25 @@
-def asteroid_collision(asts):
-    #Code Here
-    left = asts[:1]
-    right = asts[1:]
-    return check_collision(left,right)
-        
-def check_collision(left,right):
-    if len(right) == 0:
-        return left
-    if len(left) == 0:
-        return check_collision([right[0]],right[1:])
+def staircase(n):
+    if n == 0:
+        return "Not Draw!"
+    if n < 0:
+        size = -n
+    else:
+        size = n
+    print_stair(size,n)
+    return ""
 
-    if left[-1] < 0:
-        return left + check_collision([right[0]],right[1:])
-    elif left[-1] > 0:
-        if right[0] > 0:
-            return check_collision(left + [right[0]],right[1:])
-        if left[-1] > -right[0]:
-            return check_collision(left,right[1:])
-        elif left[-1] < -right[0]:
-            return check_collision(left[:-1],right)
-        else:
-            return check_collision(left[:-1],right[1:])
+def print_stair(size,n):
+    if n == 1 or n == -1:
+        str = "_"*(size-1) + "#"
+        print(str)
+        return
+    if n > 0:
+        str = "_"*(size-n) + "#"*n
+        print_stair(size,n-1)
+        print(str)
+    elif n < 0:
+        str = "_"*(size+n) + "#"*-n
+        print(str)
+        print_stair(size,n+1)
 
-x = input("Enter Input : ").split(",")
-x = list(map(int,x))
-
-print(asteroid_collision(x))
+print(staircase(int(input("Enter Input : "))))
