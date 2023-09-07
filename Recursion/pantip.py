@@ -6,7 +6,7 @@ def pantip(k, n, arr, path):
         return 0
     
     size = pantip(k - arr[n], n + 1,arr, path + [arr[n]])
-    size2 = pantip(k,n+1,arr,path) 
+    size2 = pantip(k,n+1,arr,path)
 
     # size = 0
     # for i in range(len(arr)):

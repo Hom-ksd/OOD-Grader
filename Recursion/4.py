@@ -17,6 +17,8 @@ def check_right(lst,target,data):
     return  1 + check_right(lst,target+1,data)
 
 data,target = input("input number : ").split(",")
+# 111112211002111,2
+# 5
 target = int(target) - 1
 if data == "":
     print("Output : List is entry")

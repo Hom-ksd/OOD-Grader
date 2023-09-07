@@ -1,35 +1,34 @@
-def clear_data(x):
-    if len(x) == 1:
-        return [x[0].strip("'")]
-    
-    return [x[0].strip("'")] + clear_data(x[1:])
-
 def segment(text, language, data, index):
     # print(data)
-
     if data != "" and len(data) <= len(text) and data[-1] != text[len(data) - 1]:
         return False
-    
+
     if len(data) > len(text):
         return False
-    
+
     if index >= len(language):
         return False
 
     if data == text:
         return True
 
-    check1 = segment(text,language,data+language[index],0)
-    check2 = segment(text,language,data,index+1)
-
-    return check1 or check2
+    return segment(text, language, data + language[index], 0) or segment(text, language, data, index + 1)
 
 
+def get_language(arr):
+    if len(arr) == 1:
+        return [arr[0].strip("'")]
+
+    return [arr[0].strip("'")] + get_language(arr[1:])
 
 
-inp = input("list[str]: ").split(", ")
-inp = clear_data(inp)
-target = inp[0]
-data = inp[1:]
-print(target,data)
-print(segment(target,data,"",0))
+print("Enter list[str]: ", end="")
+inp = input().split(", ")
+inp = get_language(inp)
+
+str = inp[0]
+lang = inp[1:]
+
+print(f"text: str = '{str}'")
+print(f"lang: list[str] = {lang}")
+print(f"segment(text, lang) -> {segment(str, lang, '', 0)}")

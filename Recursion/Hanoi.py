@@ -43,7 +43,7 @@ def print_list(lst,size):
         
         print_list(lst,size-1)
 
-def move(n, start, target, base,lst):
+def move(n, start, target, base, lst):
     if n == 1:
         print("move",n,"from ",tower[start], "to" ,tower[target])
         lst[target].append(lst[start].pop(-1))
