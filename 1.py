@@ -21,6 +21,7 @@ def find_min_x(arr, k):
             left = mid + 1
     return left
 
+# ตัวอย่างการใช้งาน
 arr = [1, 2, 3, 4, 5,]
 k = 1
 min_x = find_min_x(arr, k)
