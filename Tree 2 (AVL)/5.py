@@ -1,46 +1,36 @@
 class Node:
-    def __init__(self, data):
+    def __init__(self, data,id):
         self.data = data
         self.left = None
         self.right = None
-        self.id = -1
+        self.id = id
     
     def __str__(self):
         return str(self.data) + ' ' + str(self.id)
 
 class AVL:
-
     def __init__(self) -> None:
         self.root = None
+        self.node_id_counter = 1
 
     def add(self,data):
         self.root = self._add(self.root,data)
+        self.node_id_counter += 1
 
     def _add(self, root, data):
-        if root is None:
-            return Node(data)
-        else:
-            if data <= root.data:
-                root.left = self._add(root.left,data)
-            else:
-                root.right = self._add(root.right,data)
-    
-        Hdiff = self.getDiffHeight(root)
+        if not root:
+            return Node(data,self.node_id_counter)
 
-        if Hdiff > 1 and data <= root.left.data: # Left Higher than Right and new data < root.left data
-            return self.rotateRight(root)
-        
-        if Hdiff < -1 and data > root.right.data: # Right Higher than Left and new data > root.right data
-            return self.rotateLeft(root)
-        
-        if Hdiff > 1 and data > root.left.data: # Left Higher than Right and new data > root.left data
-            root.left = self.rotateLeft(root.left)
-            return self.rotateRight(root)
-        
-        if Hdiff < -1 and data <= root.right.data: # Right Higher than Left and new data < root.right data
-            root.right = self.rotateRight(root.right)
-            return self.rotateLeft(root)
-    
+        if data < root.data:
+            root.data, data = data, root.data
+
+        if not root.left:
+            root.left = self._add(root.left, data)
+        elif not root.right:
+            root.right = self._add(root.right, data)
+        else:
+            root.left = self._add(root.left, data)
+
         return root
 
     def rotateLeft(self,root):
@@ -80,20 +70,36 @@ class AVL:
             print('     ' * level, node)
             self.printTree(node.left, level + 1)
 
-    def addNodeId(self):
-        queue = []
-        queue.append(self.root)
-        id = 1
-        while queue:
-            node = queue.pop(0)
-            node.id = id
-            id += 1
-            if node.left:
-                queue.append(node.left)
-            if node.right:
-                queue.append(node.right)
         
+    def _heapify_down(self, node):
+        if not node:
+            return
 
+        smallest = node
+        left = node.left
+        right = node.right
+
+        if left and (left.data < smallest.data or (left.data == smallest.data and left.id < smallest.id)):
+            smallest = left
+
+        if right and (right.data < smallest.data or (right.data == smallest.data and right.id < smallest.id)):
+            smallest = right
+
+        if smallest != node:
+            node.data, smallest.data = smallest.data, node.data
+            node.id, smallest.id = smallest.id, node.id
+            self._heapify_down(smallest)
+
+
+
+    def addToroot(self,data):
+        if self.root is None:
+            return
+        
+        self.root.data += data
+
+    def printCustomer(self,customer,time):
+        print(f"Customer {customer} Booking Van {self.root.id} | {time} day(s)")
 
 nums,datas = input("Enter Input : ").split("/")
 
@@ -105,12 +111,15 @@ avl = AVL()
 for i in range(nums):
     avl.add(0)
 
-avl.printTree(avl.root)
+avl._heapify_down(avl.root)
 
 customer = 1
+# avl.printTree(avl.root)
+# print("-----------------------------------------------")
 for data in datas:
     avl.addToroot(data)
-
-avl.addNodeId()
-print("-----------------------------------------------")
-avl.printTree(avl.root)
+    avl.printCustomer(customer,data)
+    customer += 1
+    avl._heapify_down(avl.root)
+    # avl.printTree(avl.root)
+    # print("-----------------------------------------------")
