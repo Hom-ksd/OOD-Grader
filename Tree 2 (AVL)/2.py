@@ -1,3 +1,11 @@
+'''
+ * กลุ่มที่  : 23010016
+ * 65010049 กษิดิ์เดช พุทธวงศ์
+ * chapter : 8	item : 2	ครั้งที่ : 0005
+ * Assigned : Saturday 16th of September 2023 09:40:20 PM --> Submission : Sunday 17th of September 2023 07:24:56 PM	
+ * Elapsed time : 1304 minutes.
+ * filename : 2.py
+'''
 class Node:
     def __init__(self, data):
         self.data = data
@@ -93,4 +101,3 @@ for data in inp:
     avl.printTree(root)
     print("--------------------------------------------------")
     # print(avl.getHeight(root))
-
